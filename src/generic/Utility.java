@@ -18,8 +18,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class Utility {
-	public static String getPhoto(WebDriver driver,String folder) {
+public class Utility 
+{
+	public static String getPhoto(WebDriver driver,String folder)
+	{
+		//Taking a screen shot which will be called in after method in listners class
 		Date d=new Date();
 		//System.out.println(d.toString());
 		String dateTime=d.toString().replaceAll(":","_");
@@ -38,34 +41,41 @@ public class Utility {
 		}
 		return path;
 	}
-	public static WebDriver openBrowser(String ip,String browser){
+	public static WebDriver openBrowser(String ip,String browser)
+	{
+		
+	//Selenium Grid concept will come here if not it will pen browser in default browser and local machine
+		
 		WebDriver driver;
 				if(ip.equals("localhost")){
-					if(browser.equals("chrome")){
+					if(browser.equals("chrome"))
+					{
 						driver=new ChromeDriver();
 					}
-					else{
+					else
+					{
 						driver=new FirefoxDriver();
 					}
 				}
-				else{
-						try{
-							URL url=new URL("http://"+ip+":4444/wd/hub");
-							DesiredCapabilities dc=new DesiredCapabilities();
-							dc.setBrowserName(browser);
-							driver=new RemoteWebDriver(url,dc);
+			else{
+					try{
+						URL url=new URL("http://"+ip+":4444/wd/hub");
+						DesiredCapabilities dc=new DesiredCapabilities();
+						dc.setBrowserName(browser);
+						driver=new RemoteWebDriver(url,dc);
 						}
-						catch (Exception e) {
-							e.printStackTrace();
-							driver=new ChromeDriver();
+					catch (Exception e) {
+						e.printStackTrace();
+						driver=new ChromeDriver();
 						}
-				
-					}
+						}
 
 		return driver;
 	}
 	
-	public static String getXLData(String path,String sheet,int r,int c){
+	public static String getXLData(String path,String sheet,int r,int c)
+	{
+		//reading a data from excel which will be called in Test class
 		String v="";
 		try {
 			Workbook w = WorkbookFactory.create(new FileInputStream(path));
@@ -75,7 +85,9 @@ public class Utility {
 		}
 		return v;
 	}
-	public static String getPropertyValue(String path,String key){
+	public static String getPropertyValue(String path,String key)
+	{
+		//reading a data from property file which will be called in Test class
 		String v="";
 		try{
 				Properties p=new Properties();
@@ -88,7 +100,9 @@ public class Utility {
 		return v;
 	}
 	
-	public static void writeResultToXL(String path,int passCount,int failCount){
+	public static void writeResultToXL(String path,int passCount,int failCount)
+	{
+		//for passcount and fail count which will give result after execution.
 		try{
 			Workbook w = WorkbookFactory.create(new FileInputStream(path));
 			w.getSheet("Sheet1").getRow(1).getCell(0).setCellValue(passCount);
@@ -98,7 +112,5 @@ public class Utility {
 		}
 		catch (Exception e) {
 		}
-	}
-	
-	
+	}	
 }

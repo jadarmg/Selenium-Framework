@@ -14,7 +14,8 @@ import org.testng.annotations.Parameters;
 
 @Listeners(Result.class)
 public abstract class BaseTest implements IAutoConst {
-	static{
+	static
+	{
 		System.setProperty(CHROME_KEY,CHROME_VALUE);
 		System.setProperty(GECKO_KEY,GECKO_VALUE);
 	}
@@ -23,21 +24,27 @@ public abstract class BaseTest implements IAutoConst {
 	public WebDriver driver;
 	public String url=Utility.getPropertyValue(CONFIG_PATH,"URL");
 	public String ITO=Utility.getPropertyValue(CONFIG_PATH,"ITO");
-	public long l=Long.parseLong(ITO);
+	public long lngITO=Long.parseLong(ITO);
+	
+	public String ETO=Utility.getPropertyValue(CONFIG_PATH,"ITO");
+	public long lngETO=Long.parseLong(ITO);
 	
 
 	@Parameters({"ip","browser"})
 	@BeforeMethod(alwaysRun=true)
-	public void openApp(@Optional("localhost")String ip,@Optional("chrome")String browser){
+	public void openApp(@Optional("localhost")String ip,@Optional("chrome")String browser)
+	{
 		driver=Utility.openBrowser(ip, browser);
-		driver.manage().timeouts().implicitlyWait(l,TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(lngITO,TimeUnit.SECONDS);
 		driver.get(url);
 	}
 	@AfterMethod(alwaysRun=true)
-	public void closeApp(ITestResult result){
+	public void closeApp(ITestResult result)
+	{
 		String name=result.getName();
 		int status = result.getStatus();
-		if(status==2){
+		if(status==2)
+		{
 			String p = Utility.getPhoto(driver,"./photo");
 			Reporter.log("TestName:"+name +" Status:FAIL",true);
 			Reporter.log("PHOTO:"+p,true);
@@ -45,16 +52,6 @@ public abstract class BaseTest implements IAutoConst {
 		else{
 			Reporter.log("TestName:"+name +" Status:PASS",true);
 		}
-		driver.quit();
+		//driver.quit();
 	}
 }
-
-
-
-
-
-
-
-
-
-
